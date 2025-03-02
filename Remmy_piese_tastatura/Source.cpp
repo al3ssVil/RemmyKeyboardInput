@@ -1,90 +1,90 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 
-struct piesa
+struct piece
 {
-	int numar;
-	char culoare[100];
+	int number;
+	char color[15];
 };
 
-void citirePiese(piesa*& vector)
+void ReadPieces(piece*& vector)
 {
-	std::cout << "Citeste piese ";
-	vector = new piesa[15];
+	std::cout << "Read pieces: ";
+	vector = new piece[15];
 	for (int i = 0; i < 14; i++)
-		std::cin >> vector[i].numar >> vector[i].culoare;
+		std::cin >> vector[i].number >> vector[i].color;
 }
 
-void afisare(piesa* vector)
+void Display(piece* vector)
 {
 	for (int i = 0; i < 14; i++)
-		std::cout << vector[i].numar << ' ' << vector[i].culoare << ' ';
+		std::cout << vector[i].number << ' ' << vector[i].color << ' ';
 }
 
-void validare(piesa* vector)
+void Validation(piece* vector)
 {
-	int** matrice;
-	matrice = new int* [14];
+	int** matrix;
+	matrix = new int* [14];
 	for (int i = 1; i < 14; i++)
 	{
-		matrice[i] = new int[5];
+		matrix[i] = new int[5];
 		for (int j = 1; j < 5; j++)
-			matrice[i][j] = 0;
+			matrix[i][j] = 0;
 	}
 	int ok = 1;
 	for (int i = 0; i < 14 && ok == 1; i++)
 	{
-		if (vector[i].numar < 1 || vector[i].numar>13)
+		if (vector[i].number < 1 || vector[i].number>13)
 		{
 			ok = 0;
 			break;
 		}
-		if (strcmp(vector[i].culoare, "albastru") != 0)
-			if (strcmp(vector[i].culoare, "negru") != 0)
-				if (strcmp(vector[i].culoare, "rosu") != 0)
-					if (strcmp(vector[i].culoare, "galben") != 0)
+		if (strcmp(vector[i].color, "blue") != 0)
+			if (strcmp(vector[i].color, "black") != 0)
+				if (strcmp(vector[i].color, "red") != 0)
+					if (strcmp(vector[i].color, "yellow") != 0)
 					{
 						ok = 0;
 						break;
 					}
 					else
-						matrice[vector[i].numar][4]++;
+						matrix[vector[i].number][4]++;
 				else
-					matrice[vector[i].numar][3]++;
+					matrix[vector[i].number][3]++;
 			else
-				matrice[vector[i].numar][2]++;
+				matrix[vector[i].number][2]++;
 		else
-			matrice[vector[i].numar][1]++;
+			matrix[vector[i].number][1]++;
 	}
 	for (int i = 1; i < 14; i++)
 		for (int j = 1; j < 5; j++)
-			if (matrice[i][j] > 2)
+			if (matrix[i][j] > 2)
 				ok = 0;
 	if (ok == 0)
 	{
-		std::cout << "Esuat" << '\n';
-		citirePiese(vector);
+		std::cout << "Invalid! Please read again." << '\n';
+		ReadPieces(vector);
 	}
 	else
-		std::cout << "Valid" << '\n';
+		std::cout << "Valid pieces" << '\n';
 	for (int i = 1; i < 5; i++)
-		delete[] matrice[i];
-	delete[] matrice;
+		delete[] matrix[i];
+	delete[] matrix;
 }
 
-void quickSort(piesa*& vector, int left, int right)
+void QuickSort(piece*& vector, int left, int right)
 {
 	int i = left, j = right;
-	int mijloc = vector[(i + j) / 2].numar;
+	int middle = vector[(i + j) / 2].number;
 	while (i <= j)
 	{
-		while (mijloc > vector[i].numar)
+		while (middle > vector[i].number)
 			i++;
-		while (vector[j].numar > mijloc)
+		while (vector[j].number > middle)
 			j--;
 		if (i <= j)
 		{
-			piesa aux = vector[i];
+			piece aux = vector[i];
 			vector[i] = vector[j];
 			vector[j] = aux;
 			i++;
@@ -92,187 +92,194 @@ void quickSort(piesa*& vector, int left, int right)
 		}
 	}
 	if (left < j)
-		quickSort(vector, left, j);
+		QuickSort(vector, left, j);
 	if (i < right)
-		quickSort(vector, i, right);
+		QuickSort(vector, i, right);
 }
 
-void succesiuneValoare(piesa* vector)
+void ValueSequence(piece* vector)
 {
+	std::cout << "\nPieces ordered by value:\n";
 	for (int i = 0; i < 12; i++)
 	{
-		piesa* formatie;
-		formatie = new piesa[10];
-		formatie[0].numar = vector[i].numar;
-		strcpy(formatie[0].culoare, vector[i].culoare);
-		int pozitie = 1;
+		piece* formation;
+		formation = new piece[10];
+		formation[0].number = vector[i].number;
+		strcpy(formation[0].color, vector[i].color);
+		int position = 1;
 		for (int j = i; j < 14; j++)
-			if (formatie[0].numar == vector[j].numar)
+			if (formation[0].number == vector[j].number)
 			{
 				int ok = 1;
-				for (int p = 0; p < pozitie && ok == 1; p++)
-					if (strcmp(formatie[p].culoare, vector[j].culoare) == 0)
+				for (int p = 0; p < position && ok == 1; p++)
+					if (strcmp(formation[p].color, vector[j].color) == 0)
 						ok = 0;
 				if (ok == 1)
 				{
-					formatie[pozitie].numar = vector[j].numar;
-					strcpy(formatie[pozitie].culoare, vector[j].culoare);
-					pozitie++;
+					formation[position].number = vector[j].number;
+					strcpy(formation[position].color, vector[j].color);
+					position++;
 				}
 			}
-		if (pozitie >= 3)
+		if (position >= 3)
 		{
-			for (int p = 0; p < pozitie; p++)
-				std::cout << formatie[p].numar << ' ' << formatie[p].culoare << ' ';
+			for (int p = 0; p < position; p++)
+				std::cout << formation[p].number << ' ' << formation[p].color << ' ';
 			std::cout << '\n';
 		}
-		delete[] formatie;
+		delete[] formation;
 	}
 }
 
-void verificareOrdonat(piesa* vector, piesa* vectorOrdonat)
+void CheckOrdered(piece* vector, piece* orderedVector)
 {
-	int numar = 0;
+	int number = 0;
 	for (int i = 0; i < 14; i++)
-		if (vector[i].numar != vectorOrdonat[i].numar)
-			numar++;
-	if (numar)
-		std::cout << numar << " piese si au schimbat pozitia " << '\n';
+		if (vector[i].number != orderedVector[i].number)
+			number++;
+	if (number)
+		std::cout <<'\n'<< number << " pieces have changed their position after sorting " << '\n';
 }
 
-void succesiuneNumar(piesa* vector)
+void NumberSequence(piece* vector)
 {
+	std::cout << "\nPieces ordered by number:\n";
 	for (int i = 0; i < 12; i++)
 	{
-		piesa* formatie;
-		formatie = new piesa[10];
-		formatie[0].numar = vector[i].numar;
-		strcpy(formatie[0].culoare, vector[i].culoare);
-		int pozitie = 1;
+		piece* formation;
+		formation = new piece[10];
+		formation[0].number = vector[i].number;
+		strcpy(formation[0].color, vector[i].color);
+		int position = 1;
 		for (int j = i; j < 14; j++)
-			if (strcmp(formatie[0].culoare, vector[j].culoare) == 0)
+			if (strcmp(formation[0].color, vector[j].color) == 0)
 			{
-				if (formatie[pozitie - 1].numar + 1 == vector[j].numar)
+				if (formation[position - 1].number + 1 == vector[j].number)
 				{
-					formatie[pozitie].numar = vector[j].numar;
-					strcpy(formatie[pozitie].culoare, vector[j].culoare);
-					pozitie++;
+					formation[position].number = vector[j].number;
+					strcpy(formation[position].color, vector[j].color);
+					position++;
 				}
 			}
-		if (pozitie >= 3)
+		if (position >= 3)
 		{
-			for (int p = 0; p < pozitie; p++)
-				std::cout << formatie[p].numar << ' ' << formatie[p].culoare << ' ';
+			for (int p = 0; p < position; p++)
+				std::cout << formation[p].number << ' ' << formation[p].color << ' ';
 			std::cout << '\n';
 		}
-		delete[] formatie;
+		delete[] formation;
 	}
 }
 
-void tragere(piesa*& vector)
+void Draw(piece*& vector)
 {
-	std::cout << "Da ti o valoare valida pentru a 15 a carte:";
-	std::cin >> vector[14].numar;
-	std::cin >> vector[14].culoare;
+	std::cout << "\nGive a valid value for the 15th card: ";
+	std::cin >> vector[14].number;
+	std::cin >> vector[14].color;
 }
 
-void ceaMaiLungaFormatie(piesa* vector)
+void LongestFormation(piece* vector)
 {
-	int Lungime = 0;
-	piesa* maxim;
-	maxim = new piesa[10];
+	int length = 0;
+	piece* maxim;
+	maxim = new piece[10];
 	for (int i = 0; i <= 12; i++)
 	{
-		piesa* formatie;
-		formatie = new piesa[10];
-		formatie[0].numar = vector[i].numar;
-		strcpy(formatie[0].culoare, vector[i].culoare);
-		int pozitie = 1;
+		piece* formation;
+		formation = new piece[10];
+		formation[0].number = vector[i].number;
+		strcpy(formation[0].color, vector[i].color);
+		int position = 1;
 		for (int j = i; j <= 14; j++)
-			if (formatie[0].numar == vector[j].numar)
+			if (formation[0].number == vector[j].number)
 			{
 				int ok = 1;
-				for (int p = 0; p < pozitie && ok == 1; p++)
-					if (strcmp(formatie[p].culoare, vector[j].culoare) == 0)
+				for (int p = 0; p < position && ok == 1; p++)
+					if (strcmp(formation[p].color, vector[j].color) == 0)
 						ok = 0;
 				if (ok == 1)
 				{
-					formatie[pozitie].numar = vector[j].numar;
-					strcpy(formatie[pozitie].culoare, vector[j].culoare);
-					pozitie++;
+					formation[position].number = vector[j].number;
+					strcpy(formation[position].color, vector[j].color);
+					position++;
 				}
 			}
-		if (pozitie >= 3)
-			for (int p = 0; p < pozitie; p++)
-				if (formatie[p].numar == vector[14].numar)
-					if (strcmp(formatie[p].culoare, vector[14].culoare) == 0)
-						if (Lungime < pozitie)
+		if (position >= 3)
+			for (int p = 0; p < position; p++)
+				if (formation[p].number == vector[14].number)
+					if (strcmp(formation[p].color, vector[14].color) == 0)
+						if (length < position)
 						{
-							Lungime = pozitie;
-							for (int j = 0; j < pozitie; j++)
+							length = position;
+							for (int j = 0; j < position; j++)
 							{
-								maxim[j].numar = formatie[j].numar;
-								strcpy(maxim[j].culoare, formatie[j].culoare);
+								maxim[j].number = formation[j].number;
+								strcpy(maxim[j].color, formation[j].color);
 							}
 						}
-		delete[] formatie;
+		delete[] formation;
 	}
 	for (int i = 0; i <= 12; i++)
 	{
-		piesa* formatie;
-		formatie = new piesa[10];
-		formatie[0].numar = vector[i].numar;
-		strcpy(formatie[0].culoare, vector[i].culoare);
-		int pozitie = 1;
+		piece* formation;
+		formation = new piece[10];
+		formation[0].number = vector[i].number;
+		strcpy(formation[0].color, vector[i].color);
+		int position = 1;
 		for (int j = i; j <= 14; j++)
-			if (strcmp(formatie[0].culoare, vector[j].culoare) == 0)
+			if (strcmp(formation[0].color, vector[j].color) == 0)
 			{
-				if (formatie[pozitie - 1].numar + 1 == vector[j].numar)
+				if (formation[position - 1].number + 1 == vector[j].number)
 				{
-					formatie[pozitie].numar = vector[j].numar;
-					strcpy(formatie[pozitie].culoare, vector[j].culoare);
-					pozitie++;
+					formation[position].number = vector[j].number;
+					strcpy(formation[position].color, vector[j].color);
+					position++;
 				}
 			}
-		if (pozitie >= 3)
-			for (int p = 0; p < pozitie; p++)
-				if (formatie[p].numar == vector[14].numar)
-					if (strcmp(formatie[p].culoare, vector[14].culoare) == 0)
-						if (Lungime < pozitie)
+		if (position >= 3)
+			for (int p = 0; p < position; p++)
+				if (formation[p].number == vector[14].number)
+					if (strcmp(formation[p].color, vector[14].color) == 0)
+						if (length < position)
 						{
-							Lungime = pozitie;
-							for (int j = 0; j < pozitie; j++)
+							length = position;
+							for (int j = 0; j < position; j++)
 							{
-								maxim[j].numar = formatie[j].numar;
-								strcpy(maxim[j].culoare, formatie[j].culoare);
+								maxim[j].number = formation[j].number;
+								strcpy(maxim[j].color, formation[j].color);
 							}
 						}
-		delete[] formatie;
+		delete[] formation;
 	}
-	if (Lungime > 0)
-		for (int i = 0; i < Lungime; i++)
-			std::cout << maxim[i].numar << ' ' << maxim[i].culoare << ' ';
+	if (length > 0)
+	{
+		std::cout << "\nThe longest formation made with this piece is: ";
+		for (int i = 0; i < length; i++)
+		
+			std::cout << maxim[i].number << ' ' << maxim[i].color << ' ';
+	}
 	else
-		std::cout << "Nu se poate face o formatie cu aceasta piesa";
+		std::cout << "\nA formation cannot be made with this piece";
 	delete[] maxim;
 }
 
 int main()
 {
-	piesa* vector;
-	piesa* vectorOrdonat;
-	vectorOrdonat = new piesa[15];
-	citirePiese(vector);
+	piece* vector;
+	piece* orderedVector;
+	orderedVector = new piece[15];
+	ReadPieces(vector);
 	for (int i = 0; i < 14; i++)
-		vectorOrdonat[i] = vector[i];
-	validare(vector);
-	quickSort(vectorOrdonat, 0, 13);
-	verificareOrdonat(vector, vectorOrdonat);
-	succesiuneValoare(vector);
-	succesiuneNumar(vector);
-	tragere(vector);
-	ceaMaiLungaFormatie(vector);
+		orderedVector[i] = vector[i];
+	Validation(vector);
+	QuickSort(orderedVector, 0, 13);
+	CheckOrdered(vector, orderedVector);
+	ValueSequence(vector);
+	NumberSequence(vector);
+	Draw(vector);
+	LongestFormation(vector);
 	delete[] vector;
-	//1 albastru 2 negru 2 albastru 1 rosu 1 negru 3 albastru 10 negru 10 rosu 11 negru 10 albastru 12 rosu 8 albastru 13 negru 5 rosu
+	//1 blue 2 black 2 blue 1 red 1 black 3 blue 10 black 10 red 11 black 10 blue 12 red 8 blue 4 black 5 red
+	//Try first 4 blue for the 15th piece, after that try 5 red
 	return 0;
 }
