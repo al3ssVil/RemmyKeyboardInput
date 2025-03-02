@@ -1,6 +1,6 @@
 # Piesa Game
 
-A C++ program to simulate a game involving "piese" (pieces), with functionalities to read, validate, and sort the pieces, as well as find sequences and formations based on the pieces' numbers and colors.
+A C++ program to simulate a Rummy game involving "pieces", with functionalities to read, validate, and sort the pieces, as well as find sequences and formations based on the pieces' numbers and colors.
 
 ## Description
 
@@ -24,28 +24,34 @@ This project is a simulation of a game involving pieces with numbers and colors.
 ### Sample Input:
 The input is a list of 14 pieces, where each piece consists of a number and a color:
 ```text
-1 albastru
-2 negru
-2 albastru
-1 rosu
-1 negru
-3 albastru
-10 negru
-10 rosu
-11 negru
-10 albastru
-12 rosu
-8 albastru
-13 negru
-5 rosu
+1 blue
+2 black
+2 blue
+1 red
+1 black
+3 blue
+10 black
+10 red
+11 black
+10 blue
+12 red
+8 blue
+4 black
+5 red
+```
 Output:
 The program will:
-```
-Validate the input pieces.
-Sort the pieces by their numbers.
-Check and display any sequences or formations, including those based on number or color.
-Allow the user to add a 15th piece, and then display the longest possible formation.
-The output might look like:
 
-![image](https://github.com/user-attachments/assets/2d8569ec-c16c-4ace-9d26-a44180324a58)
+- Validate the input pieces.
+- Sort the pieces by their numbers.
+- Check and display any sequences or formations, including those based on number or color.
+- Allow the user to add a 15th piece, and then display the longest possible formation.
+
+### The output might look like:
+![image](https://github.com/user-attachments/assets/2989ab06-8411-418c-9654-f59c604e2350)
+If you put for the 15th piece `4 blue`
+
+Or
+![image](https://github.com/user-attachments/assets/b7f0f881-8418-4eee-9c71-f136eab34361)
+If you put `5 red`
 
