@@ -48,10 +48,11 @@ The program will:
 - Allow the user to add a 15th piece, and then display the longest possible formation.
 
 ### The output might look like:
-![image](https://github.com/user-attachments/assets/2989ab06-8411-418c-9654-f59c604e2350)
+![image](https://github.com/user-attachments/assets/4974c8ba-0a2c-4c11-ba1a-03db20f468eb)
 If you put for the 15th piece `4 blue`
 
 Or
-![image](https://github.com/user-attachments/assets/b7f0f881-8418-4eee-9c71-f136eab34361)
+![image](https://github.com/user-attachments/assets/5c25b94d-155c-4282-887f-a1308db40630)
+
 If you put `5 red`
 
