@@ -141,9 +141,9 @@ void CheckOrdered(piece* vector, piece* orderedVector)
 		std::cout <<'\n'<< number << " pieces have changed their position after sorting " << '\n';
 }
 
-void NumberSequence(piece* vector)
+void ColorSequence(piece* vector)
 {
-	std::cout << "\nPieces ordered by number:\n";
+	std::cout << "\nPieces ordered by color:\n";
 	for (int i = 0; i < 12; i++)
 	{
 		piece* formation;
@@ -275,7 +275,7 @@ int main()
 	QuickSort(orderedVector, 0, 13);
 	CheckOrdered(vector, orderedVector);
 	ValueSequence(vector);
-	NumberSequence(vector);
+	ColorSequence(vector);
 	Draw(vector);
 	LongestFormation(vector);
 	delete[] vector;
